@@ -66,3 +66,47 @@ GROUP BY
     d.first_name,
     d.last_name
 ORDER BY total_earnings DESC;
+
+
+--Revenue by city
+
+SELECT
+    c.city,
+    COUNT(r.ride_id) AS total_rides,
+    SUM(r.fare) AS total_revenue,
+    AVG(r.fare) AS average_fare
+FROM Rides r
+JOIN Customers c
+    ON r.customer_id = c.customer_id
+WHERE r.ride_status = 'Completed'
+GROUP BY c.city
+ORDER BY total_revenue DESC;
+
+
+--Payment method analysis
+
+SELECT
+    payment_method,
+    COUNT(*) AS total_payments,
+    SUM(amount) AS total_amount
+FROM Payments
+WHERE payment_status = 'Paid'
+GROUP BY payment_method
+ORDER BY total_amount DESC;
+
+
+--Ratings analysis
+
+SELECT
+    d.driver_id,
+    CONCAT(d.first_name, ' ', d.last_name) AS driver_name,
+    ROUND(AVG(rt.customer_rating), 2) AS average_customer_rating,
+    COUNT(rt.rating_id) AS total_ratings
+FROM Ratings rt
+JOIN Drivers d
+    ON rt.driver_id = d.driver_id
+GROUP BY
+    d.driver_id,
+    d.first_name,
+    d.last_name
+ORDER BY average_customer_rating DESC;
