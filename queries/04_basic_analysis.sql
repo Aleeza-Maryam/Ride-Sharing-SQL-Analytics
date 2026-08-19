@@ -48,4 +48,21 @@ FROM Rides r
 JOIN Customers c
     ON r.customer_id = c.customer_id;
 
-    
+
+--Driver performance
+
+SELECT
+    d.driver_id,
+    CONCAT(d.first_name, ' ', d.last_name) AS driver_name,
+    COUNT(r.ride_id) AS total_rides,
+    SUM(r.fare) AS total_earnings,
+    AVG(r.fare) AS average_fare
+FROM Drivers d
+JOIN Rides r
+    ON d.driver_id = r.driver_id
+WHERE r.ride_status = 'Completed'
+GROUP BY
+    d.driver_id,
+    d.first_name,
+    d.last_name
+ORDER BY total_earnings DESC;
