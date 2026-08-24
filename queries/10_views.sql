@@ -67,8 +67,7 @@ GROUP BY
     c.last_name,
     c.city;
 
-
---Customer Performance View
+--Customer Performance Viewsss
 
 CREATE OR REPLACE VIEW vw_customer_performance AS
 SELECT
