@@ -28,3 +28,37 @@ WHERE ride_status = 'Completed'
 
 CREATE INDEX idx_rides_status_date
 ON Rides(ride_status, ride_date);
+
+
+--explain for optimization
+
+EXPLAIN
+SELECT *
+FROM Rides
+WHERE ride_status = 'Completed';
+
+EXPLAIN
+SELECT
+    r.ride_id,
+    c.first_name,
+    c.last_name,
+    r.fare
+FROM Rides r
+JOIN Customers c
+    ON r.customer_id = c.customer_id
+WHERE r.ride_status = 'Completed';
+
+
+
+--data filtering
+
+EXPLAIN
+SELECT
+    ride_date,
+    COUNT(*) AS total_rides
+FROM Rides
+WHERE ride_date >= '2025-01-01'
+  AND ride_date < '2025-02-01'
+GROUP BY ride_date;
+
+SHOW INDEX FROM Rides;
